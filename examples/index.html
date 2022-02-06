@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One time pass input</title>
+    <script src="../otp-input.js"></script>
+    <style>
+        
+        .container{
+            
+        }
+        .actions{
+            width: 100%;
+            display: flex;
+            padding: 1ch 0 1ch 0;
+            gap: 1ch;
+            justify-content: space-between;
+        }
+        .actions button{
+            flex-grow: 1;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container">
+        <otp-input></otp-input>
+        <div class="actions">
+            <button disabled onclick="console.log('login...')">Login</button><button>Resend</button>
+        </div>
+    </div>
+    
+    <script>
+        const otp = document.querySelector('otp-input')
+        const [btn_login, btn_resend] = document.querySelectorAll('button')
+        btn_login.disabled = true
+        otp.addEventListener('change', function (e) {
+            btn_login.disabled = !e.target.filled
+            if (e.target.filled) {
+                btn_login.focus()
+            }
+            console.log(e.target.filled)
+        })
+    </script>
+</body>
+</html>

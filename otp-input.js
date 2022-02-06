@@ -14,22 +14,16 @@ class OTPInputElement extends HTMLElement {
         }
         input{
             display: inline-block;
-            width: 2ch;
-            
-            border: 1px solid black;
+            width: 2ch;            
             text-align: center;
             height:100%;
-            font-size: ${getComputedStyle(this)['font-size']}
+            font-size: xx-large;
         }
         `
+        console.log(getComputedStyle(this))
         this.attachShadow({ mode: 'open' })
         const style_el = document.createElement('style')
         style_el.textContent = style
-
-        this.input = document.createElement('input');
-        this.input.name = this.getAttribute('name')
-        this.input.type = 'hidden'
-        this.appendChild(this.input)
 
         this.fieldset = document.createElement('fieldset')
 
@@ -79,22 +73,21 @@ class OTPInputElement extends HTMLElement {
     }
 
     dispatchChangeEvent(){
-        let value = ''
-        for(let c of this.fieldset.children) {
-            value += c.value
-        }
-        this.input.value = value
-        this.dispatchEvent(new Event('change'))
-        if (this.input.value.length == this.fieldset.childElementCount) {
-            this.dispatchEvent(new Event('filled'))
+        if (this.value.length == this.fieldset.childElementCount) {
             this.setAttribute('filled', true)
         }else{
             this.removeAttribute('filled')
         }
+
+        this.dispatchEvent(new Event('change'))
     }
 
     get value() {
-        return this.input.value       
+        let value = ''
+        for(let c of this.fieldset.children) {
+            value += c.value
+        }
+        return value       
     }
 
     set disabled(value) {
@@ -106,6 +99,10 @@ class OTPInputElement extends HTMLElement {
             this.removeAttribute('disabled')
             this.fieldset.removeAttribute('disabled')
         }         
+    }
+
+    get filled() {
+        return this.hasAttribute('filled')
     }
 
     get disabled(){ return this.hasAttribute('disabled')}
