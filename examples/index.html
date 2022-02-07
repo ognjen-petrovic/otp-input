@@ -7,12 +7,12 @@
     <title>One time pass input</title>
     <script src="../otp-input.js"></script>
     <style>
-        
-        .container{
-            width: 38ch;
-            max-width: 500px;
+        body {
+            max-width: max-content;
             margin: auto;
-        }
+            padding: 1em;
+            }
+          
         .actions{
             width: 100%;
             display: flex;
@@ -27,12 +27,10 @@
 
 </head>
 <body>
-    <div class="container">
         <otp-input></otp-input>
         <div class="actions">
             <button disabled onclick="console.log('login...')">Login</button><button>Resend</button>
         </div>
-    </div>
     
     <script>
         const otp = document.querySelector('otp-input')

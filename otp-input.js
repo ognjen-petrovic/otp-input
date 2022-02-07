@@ -5,6 +5,7 @@ class OTPInputElement extends HTMLElement {
 
         const style = `
         fieldset{
+            max-width: max-content;
             padding:0;
             border:0;
             display:flex;
@@ -53,8 +54,9 @@ class OTPInputElement extends HTMLElement {
             if (e.key == 'Backspace') {
                 if (e.target.previousElementSibling != null){
                     e.target.previousElementSibling.focus()
-                    this.dispatchChangeEvent()
                 }
+
+                this.dispatchChangeEvent()
                     
             }
         })
@@ -64,6 +66,12 @@ class OTPInputElement extends HTMLElement {
             let txt = (e.clipboardData || window.clipboardData).getData('text');
             if (txt.length >= this.fieldset.childElementCount) {
                 this.value = txt
+            }
+        })
+
+        this.fieldset.addEventListener('click', (e) => {
+            if (e.target.tagName == 'INPUT'){
+                e.target.select()
             }
         })
 
