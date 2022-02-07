@@ -9,7 +9,9 @@
     <style>
         
         .container{
-            
+            width: 38ch;
+            max-width: 500px;
+            margin: auto;
         }
         .actions{
             width: 100%;
@@ -35,13 +37,17 @@
     <script>
         const otp = document.querySelector('otp-input')
         const [btn_login, btn_resend] = document.querySelectorAll('button')
-        btn_login.disabled = true
+
         otp.addEventListener('change', function (e) {
             btn_login.disabled = !e.target.filled
             if (e.target.filled) {
                 btn_login.focus()
             }
-            console.log(e.target.filled)
+        })
+
+        btn_login.disabled = true
+        btn_resend.addEventListener('click', () => {
+            otp.clear()
         })
     </script>
 </body>

@@ -20,13 +20,11 @@ class OTPInputElement extends HTMLElement {
             font-size: xx-large;
         }
         `
-        console.log(getComputedStyle(this))
         this.attachShadow({ mode: 'open' })
         const style_el = document.createElement('style')
         style_el.textContent = style
 
         this.fieldset = document.createElement('fieldset')
-
         let length = parseInt(this.getAttribute('length'));
         if (isNaN(length)) {
             length = 6
@@ -61,6 +59,14 @@ class OTPInputElement extends HTMLElement {
             }
         })
 
+        this.addEventListener('paste', (e) => {
+            e.preventDefault();
+            let txt = (e.clipboardData || window.clipboardData).getData('text');
+            if (txt.length >= this.fieldset.childElementCount) {
+                this.value = txt
+            }
+        })
+
         Array.from(this.fieldset.children).forEach(el => {
             el.addEventListener('focus', () => {
                 el.select()
@@ -82,12 +88,23 @@ class OTPInputElement extends HTMLElement {
         this.dispatchEvent(new Event('change'))
     }
 
+    clear() {
+        this.value = ''
+    }
+
     get value() {
         let value = ''
         for(let c of this.fieldset.children) {
             value += c.value
         }
         return value       
+    }
+
+    set value(v) {
+        for (let i = 0; i < this.fieldset.childElementCount; ++i) {
+            this.fieldset.children[i].value = v[i] ? v[i] : ''
+        }
+        this.dispatchChangeEvent()
     }
 
     set disabled(value) {
