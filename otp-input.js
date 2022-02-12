@@ -24,6 +24,10 @@ class OTPInputElement extends HTMLElement {
         this.attachShadow({ mode: 'open' })
         const style_el = document.createElement('style')
         style_el.textContent = style
+        this.shadowRoot.append(style_el)
+    }
+
+    connectedCallback(){
 
         this.fieldset = document.createElement('fieldset')
         let length = parseInt(this.getAttribute('length'));
@@ -36,7 +40,7 @@ class OTPInputElement extends HTMLElement {
             a.push(div)
         }
         this.fieldset.append(...a);
-        this.shadowRoot.append(style_el, this.fieldset)
+        this.shadowRoot.append(this.fieldset)
 
         this.fieldset.addEventListener('input', (e) => {
             if (e.inputType == 'deleteContentBackward') return
@@ -126,11 +130,13 @@ class OTPInputElement extends HTMLElement {
         }         
     }
 
+    get disabled(){ return this.hasAttribute('disabled')}
+
     get filled() {
         return this.hasAttribute('filled')
     }
 
-    get disabled(){ return this.hasAttribute('disabled')}
+    
 }
 
 customElements.define('otp-input', OTPInputElement )
